@@ -10,6 +10,9 @@ using StockQuoteAlertApp.Exception;
 
 namespace StockQuoteAlertApp.Services
 {
+    /// <summary>
+    /// Serviço responsável por monitorar o preço de um ativo e notificar quando determinadas condições são atendidas.
+    /// </summary>
     public class MonitoringService
     {
         private readonly IConfiguration _configuration;
@@ -17,12 +20,21 @@ namespace StockQuoteAlertApp.Services
         private Timer _timer;
         public event EventHandler<System.Exception> ErrorOccurred;
 
+        /// <summary>
+        /// Constrói uma instância do serviço de monitoramento.
+        /// </summary>
+        /// <param name="configuration">Configuração da aplicação.</param>
+        /// <param name="hubContext">Contexto do Hub SignalR para comunicação em tempo real.</param>
         public MonitoringService(IConfiguration configuration, IHubContext<MonitoringHub> hubContext)
         {
             _configuration = configuration;
             _hubContext = hubContext;
         }
 
+        /// <summary>
+        /// Inicia o monitoramento do preço do ativo especificado.
+        /// </summary>
+        /// <param name="asset">Ativo a ser monitorado.</param>
         public void StartMonitoring(Asset asset)
         {
             _timer = new Timer(async _ =>
@@ -54,12 +66,17 @@ namespace StockQuoteAlertApp.Services
             }, null, TimeSpan.Zero, TimeSpan.FromMinutes(1)); // Definição do intervalo de tempo.
         }
 
-
+        /// <summary>
+        /// Obtém o preço atual do ativo especificado.
+        /// </summary>
+        /// <param name="symbol">Símbolo do ativo.</param>
+        /// <returns>Preço atual do ativo.</returns>
         private async Task<decimal> GetCurrentPrice(string symbol)
         {
             try
             {
-                string url = $"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval=1min&apikey=3A1CZFVC2R1W2WWW";
+                string apikey = "3A1CZFVC2R1W2WWW";
+                string url = $"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval=1min&apikey={apikey}";
 
                 using HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.GetAsync(url);
@@ -89,6 +106,12 @@ namespace StockQuoteAlertApp.Services
             }
         }
 
+        /// <summary>
+        /// Envia um e-mail de notificação com base na ação especificada.
+        /// </summary>
+        /// <param name="action">Ação ("Buy" ou "Sell").</param>
+        /// <param name="asset">Ativo em questão.</param>
+        /// <param name="currentPrice">Preço atual do ativo.</param>
         private async Task SendEmail(string action, Asset asset, decimal currentPrice)
         {
             var emailSettings = _configuration.GetSection("EmailSettings").Get<EmailSettings>();
