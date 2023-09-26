@@ -71,7 +71,7 @@ namespace StockQuoteAlertApp.Services
 
                 if (apiResponse == null || apiResponse.Meta == null || apiResponse.TimeSeries == null || !apiResponse.TimeSeries.ContainsKey(apiResponse.Meta.LastRefreshed))
                 {
-                    throw new AssetException("This Asset doesn't exist or reached the Alpha Vantage API's call limit");
+                    throw new AssetException("This Asset doesn't exist or reached the Alpha Vantage API's call limit (5 requests/5 minutes or 100 requests/day limit for free API key)");
                 }
 
                 string lastRefreshedTime = apiResponse.Meta.LastRefreshed;
@@ -80,12 +80,12 @@ namespace StockQuoteAlertApp.Services
             catch (NullReferenceException)
             {
                 // Capturando a NullReferenceException e lançando sua exceção personalizada.
-                throw new AssetException("This Asset doesn't exist or reached the Alpha Vantage API's call limit");
+                throw new AssetException("This Asset doesn't exist or reached the Alpha Vantage API's call limit (5 requests/5 minutes or 100 requests/day limit for free API key)");
             }
             catch (KeyNotFoundException)
             {
                 // Capturando a KeyNotFoundException e lançando sua exceção personalizada.
-                throw new AssetException("This Asset doesn't exist or reached the Alpha Vantage API's call limit");
+                throw new AssetException("This Asset doesn't exist or reached the Alpha Vantage API's call limit (5 requests/5 minutes or 100 requests/day limit for free API key)");
             }
         }
 
