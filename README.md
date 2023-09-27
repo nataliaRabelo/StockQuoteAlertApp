@@ -13,6 +13,8 @@ O StockQuoteAlertApp trata-se de um sistema de serviço de monitoramento que ver
 * [Visual Studio na última versão](https://visualstudio.microsoft.com/pt-br/downloads/)
 * C# v. 10.0 (Obtido diretamente da IDE)
 * .NET v. 7.0 (Obtido diretamente da IDE)
+* MailKit 1.1.0 (Obtido diretamente da IDE)
+* Microsoft.AspNetCore.SignalR.Client 7.0.11 (Obtido diretamente da IDE)
 
 ### 1.2. Somente para compilar e executar
 
