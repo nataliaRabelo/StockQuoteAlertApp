@@ -24,7 +24,7 @@ O StockQuoteAlertApp trata-se de um sistema de serviço de monitoramento que ver
 
 ## 2. Instruções de construção, execução e uso da API
 
-Antes de executar certifique-se de que a chave da API do Alpha Vantage possui uma chave sem limite de chamadas excedido.
+Antes de executar certifique-se de que a chave da API do Alpha Vantage possui uma chave sem limite de chamadas excedido e de que os e-mails de destino para envio dos avisos de venda e compra estão devidamente inseridos no arquivo `appsettings.json`.
 
 O projeto pode ser executado em modo de produção ou modo de depuração diretamente através da IDE. Você também pode construir e executar o projeto pelo terminal:
 
